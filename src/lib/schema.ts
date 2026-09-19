@@ -52,7 +52,6 @@ export const alertaCalidadSchema = z.object({
     .min(1, "Agrega al menos una acción realizada"),
   observaciones: z.string().optional(),
   firmas: firmasSchema,
-  destinatarioEmail: z.string().email("Correo inválido").optional().or(z.literal("")),
 });
 
 export type AlertaCalidadFormValues = z.infer<typeof alertaCalidadSchema>;

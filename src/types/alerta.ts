@@ -56,8 +56,6 @@ export interface AlertaCalidadCamposComunes {
 /** Datos completos del formulario, usados para generar el PDF "en caliente" (con fotos). */
 export interface AlertaCalidad extends AlertaCalidadCamposComunes {
   evidenciaFotografica: EvidenciaFoto[];
-  /** Solo para la acción de enviar, no forma parte del PDF. */
-  destinatarioEmail?: string;
 }
 
 /** Bitácora opcional de envíos (Fase 2 en espíritu, pero el campo ya existe en el esquema). */

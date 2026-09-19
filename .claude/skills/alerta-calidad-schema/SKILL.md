@@ -65,10 +65,16 @@ la regla de paginación) — usarlo siempre al probar cambios de layout, no solo
 
 ## Enviar / compartir el PDF
 
-El PDF generado (con fotos) se puede **compartir** vía Web Share API nativa
-(`navigator.share({ files: [...] })`, con `navigator.canShare` como feature-detection obligatorio
-— sin esto el botón falla silenciosamente en navegadores de escritorio) o **enviar por correo**
-vía una API route de Next.js que use Resend (o similar) con el PDF como adjunto. No existe una API
+**Decisión final (no usar Resend ni ningún backend de correo):** el PDF generado (con fotos) se
+comparte únicamente vía Web Share API nativa (`navigator.share({ files: [...] })`, con
+`navigator.canShare` como feature-detection obligatorio — sin esto el botón falla silenciosamente
+en navegadores de escritorio) y, si el navegador no soporta compartir archivos, el respaldo es
+simplemente **descargar el PDF** (`<a download>`) para que el usuario lo adjunte a mano donde
+quiera. No hay endpoint de envío de correo — se descartó el plan original de usar Resend (ver
+`PLAN.md` sección 6.1, ahí queda como referencia histórica pero ya no aplica) porque
+`inspeccion_contenedores-dpworld` (otra app de la misma plataforma) ya resuelve el mismo problema
+así, sin backend de correo, y el usuario prefirió mantener el mismo patrón simple en toda la
+plataforma en vez de sumar una dependencia externa (Resend) solo para este caso. No existe una API
 pública de WhatsApp para envío directo desde una web — el share nativo es el mecanismo correcto.
 
 ## Guardado en historial — regla obligatoria: SIN imágenes

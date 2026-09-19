@@ -20,7 +20,7 @@ import { registrarAlertaNumeroUsado, sugerirSiguienteAlertaNumero } from "@/lib/
 import { alertaCalidadSchema, type AlertaCalidadFormValues } from "@/lib/schema";
 import type { AlertaCalidad, NuevaAlertaHistorial } from "@/types/alerta";
 
-type Estado = "idle" | "generando" | "listo" | "enviando-correo" | "error";
+type Estado = "idle" | "generando" | "listo" | "error";
 
 export default function Page() {
   const form = useForm<AlertaCalidadFormValues>({
@@ -38,7 +38,6 @@ export default function Page() {
       accionesRealizadas: [""],
       causaRaiz: "",
       firmas: {},
-      destinatarioEmail: "",
     },
   });
 
@@ -135,38 +134,6 @@ export default function Page() {
     }
   }
 
-  async function enviarPorCorreo() {
-    if (!pdfFile) return;
-    const destinatario = form.getValues("destinatarioEmail");
-    if (!destinatario) {
-      setMensaje("Escribe un correo destinatario antes de enviar.");
-      return;
-    }
-
-    setEstado("enviando-correo");
-    setMensaje(null);
-
-    try {
-      const formData = new FormData();
-      formData.append("pdf", pdfFile);
-      formData.append("destinatario", destinatario);
-      formData.append("alertaNumero", form.getValues("alertaNumero"));
-      formData.append("cliente", form.getValues("cliente"));
-
-      const res = await fetch("/api/enviar-correo", { method: "POST", body: formData });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "No se pudo enviar el correo.");
-      }
-
-      setEstado("listo");
-      setMensaje(`Correo enviado a ${destinatario}.`);
-    } catch (err) {
-      setEstado("error");
-      setMensaje(err instanceof Error ? err.message : "Ocurrió un error enviando el correo.");
-    }
-  }
-
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <h1 className="mb-6 text-xl font-bold uppercase tracking-wide text-dpw-dark">
@@ -201,22 +168,6 @@ export default function Page() {
 
         <Firmas form={form} />
 
-        <section className={sectionClass}>
-          <h2 className={sectionTitleClass}>Envío</h2>
-          <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-dpw-dark">
-            Correo destinatario (para el botón &quot;Enviar por correo&quot;)
-          </label>
-          <input
-            type="email"
-            className={inputClass}
-            placeholder="destinatario@cliente.com"
-            {...form.register("destinatarioEmail")}
-          />
-          {form.formState.errors.destinatarioEmail ? (
-            <p className={errorClass}>{String(form.formState.errors.destinatarioEmail.message)}</p>
-          ) : null}
-        </section>
-
         <div className="flex flex-wrap items-center gap-3">
           <button
             type="submit"
@@ -244,14 +195,6 @@ export default function Page() {
                   Compartir
                 </button>
               ) : null}
-              <button
-                type="button"
-                onClick={enviarPorCorreo}
-                disabled={estado === "enviando-correo"}
-                className="rounded border border-dpw-dark px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-dpw-dark hover:bg-dpw-dark hover:text-white disabled:opacity-50"
-              >
-                {estado === "enviando-correo" ? "Enviando…" : "Enviar por correo"}
-              </button>
             </>
           ) : null}
         </div>
