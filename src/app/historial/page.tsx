@@ -12,8 +12,11 @@ import type { AlertaCalidadHistorial } from "@/types/alerta";
 export default function HistorialPage() {
   const [alertas, setAlertas] = useState<AlertaCalidadHistorial[]>([]);
   const [cargando, setCargando] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [generandoId, setGenerandoId] = useState<string | null>(null);
+  const [eliminandoId, setEliminandoId] = useState<string | null>(null);
+  const [vaciando, setVaciando] = useState(false);
 
   const [filtroCliente, setFiltroCliente] = useState("");
   const [filtroDesde, setFiltroDesde] = useState("");
@@ -29,7 +32,7 @@ export default function HistorialPage() {
         if (!res.ok) throw new Error(data.error || "No se pudo cargar el historial.");
         if (!cancelado) setAlertas(data.alertas ?? []);
       } catch (err) {
-        if (!cancelado) setError(err instanceof Error ? err.message : "Error inesperado");
+        if (!cancelado) setLoadError(err instanceof Error ? err.message : "Error inesperado");
       } finally {
         if (!cancelado) setCargando(false);
       }
@@ -66,9 +69,67 @@ export default function HistorialPage() {
     }
   }
 
+  async function eliminarUno(alerta: AlertaCalidadHistorial) {
+    const ok = window.confirm(
+      `¿Eliminar la alerta ${alerta.alertaNumero} (${alerta.cliente}) del historial? Esta acción no se puede deshacer.`
+    );
+    if (!ok) return;
+
+    setEliminandoId(alerta.id);
+    setError(null);
+    try {
+      const res = await fetch(`/api/alertas/${alerta.id}`, { method: "DELETE" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "No se pudo eliminar la alerta.");
+      setAlertas((prev) => prev.filter((a) => a.id !== alerta.id));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error inesperado al eliminar.");
+    } finally {
+      setEliminandoId(null);
+    }
+  }
+
+  async function vaciarHistorial() {
+    if (alertas.length === 0) return;
+
+    const ok = window.confirm(
+      `Esto borra las ${alertas.length} alertas guardadas en el historial (no afecta ningún PDF ya descargado o compartido). Esta acción no se puede deshacer. ¿Continuar?`
+    );
+    if (!ok) return;
+
+    const texto = window.prompt('Para confirmar, escribe exactamente: BORRAR');
+    if (texto !== "BORRAR") {
+      if (texto !== null) window.alert("Texto incorrecto — no se eliminó nada.");
+      return;
+    }
+
+    setVaciando(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/alertas?confirm=BORRAR_TODO", { method: "DELETE" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "No se pudo vaciar el historial.");
+      setAlertas([]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error inesperado al vaciar el historial.");
+    } finally {
+      setVaciando(false);
+    }
+  }
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <PageHeader eyebrow="Registro · DAL Colón Logistics Park" title="Historial de Alertas" />
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <PageHeader eyebrow="Registro · DAL Colón Logistics Park" title="Historial de Alertas" />
+        <button
+          type="button"
+          onClick={vaciarHistorial}
+          disabled={vaciando || alertas.length === 0}
+          className="font-condensed rounded-lg border-2 border-dpw-red px-4 py-2 text-xs font-bold uppercase tracking-wide text-dpw-red transition-colors hover:bg-dpw-red hover:text-white disabled:opacity-40"
+        >
+          {vaciando ? "Vaciando…" : "Vaciar historial"}
+        </button>
+      </div>
 
       <div className={`mb-5 grid grid-cols-1 gap-4 sm:grid-cols-3 ${sectionClass}`}>
         <div>
@@ -100,15 +161,19 @@ export default function HistorialPage() {
         </div>
       </div>
 
+      {error ? <p className="mb-3 text-sm font-medium text-dpw-red">{error}</p> : null}
+
       {cargando ? (
         <p className="text-sm text-dpw-gray-text">Cargando historial…</p>
-      ) : error ? (
-        <p className="text-sm text-dpw-red">{error}</p>
+      ) : loadError ? (
+        <p className="text-sm text-dpw-red">{loadError}</p>
       ) : (
         <TablaHistorial
           alertas={alertasFiltradas}
           onSeleccionar={descargarDesdeHistorial}
+          onEliminar={eliminarUno}
           generandoId={generandoId}
+          eliminandoId={eliminandoId}
         />
       )}
     </div>

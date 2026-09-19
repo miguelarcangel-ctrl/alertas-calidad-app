@@ -3,10 +3,18 @@ import type { AlertaCalidadHistorial } from "@/types/alerta";
 interface TablaHistorialProps {
   alertas: AlertaCalidadHistorial[];
   onSeleccionar: (alerta: AlertaCalidadHistorial) => void;
+  onEliminar: (alerta: AlertaCalidadHistorial) => void;
   generandoId: string | null;
+  eliminandoId: string | null;
 }
 
-export function TablaHistorial({ alertas, onSeleccionar, generandoId }: TablaHistorialProps) {
+export function TablaHistorial({
+  alertas,
+  onSeleccionar,
+  onEliminar,
+  generandoId,
+  eliminandoId,
+}: TablaHistorialProps) {
   if (alertas.length === 0) {
     return <p className="text-sm text-dpw-gray-text">No hay alertas guardadas todavía.</p>;
   }
@@ -44,15 +52,25 @@ export function TablaHistorial({ alertas, onSeleccionar, generandoId }: TablaHis
               <td className="px-4 py-3">{alerta.tipoAlerta.tipo}</td>
               <td className="px-4 py-3">{alerta.sku || "N/A"}</td>
               <td className="px-4 py-3">{alerta.cantidadFotosOriginal}</td>
-              <td className="px-4 py-3 text-right">
-                <button
-                  type="button"
-                  onClick={() => onSeleccionar(alerta)}
-                  disabled={generandoId === alerta.id}
-                  className="font-condensed rounded-lg border border-dpw-primary px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-dpw-primary transition-colors hover:bg-dpw-primary hover:text-white disabled:opacity-50"
-                >
-                  {generandoId === alerta.id ? "Generando…" : "Descargar PDF"}
-                </button>
+              <td className="px-4 py-3">
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => onSeleccionar(alerta)}
+                    disabled={generandoId === alerta.id}
+                    className="font-condensed rounded-lg border border-dpw-primary px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-dpw-primary transition-colors hover:bg-dpw-primary hover:text-white disabled:opacity-50"
+                  >
+                    {generandoId === alerta.id ? "Generando…" : "Descargar PDF"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onEliminar(alerta)}
+                    disabled={eliminandoId === alerta.id}
+                    className="font-condensed rounded-lg border border-dpw-red px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-dpw-red transition-colors hover:bg-dpw-red hover:text-white disabled:opacity-50"
+                  >
+                    {eliminandoId === alerta.id ? "Eliminando…" : "Eliminar"}
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

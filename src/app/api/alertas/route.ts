@@ -56,6 +56,37 @@ export async function POST(request: Request) {
   }
 }
 
+/**
+ * Vacía TODO el historial. Requiere ?confirm=BORRAR_TODO en la URL como
+ * salvaguarda adicional (más allá de la confirmación que ya pide la UI) —
+ * ver TablaHistorial/HistorialPage para el flujo de confirmación.
+ */
+export async function DELETE(request: Request) {
+  try {
+    const confirm = new URL(request.url).searchParams.get("confirm");
+    if (confirm !== "BORRAR_TODO") {
+      return NextResponse.json(
+        { error: "Falta confirmación. Agrega ?confirm=BORRAR_TODO para vaciar el historial." },
+        { status: 400 }
+      );
+    }
+
+    const supabase = getSupabaseServerClient();
+    const { error } = await supabase.from(TABLA).delete().not("id", "is", null);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Error inesperado" },
+      { status: 500 }
+    );
+  }
+}
+
 // Las columnas en Supabase usan snake_case (ver docs/supabase-schema.sql);
 // el dominio de la app usa camelCase (ver docs/historial-schema.json).
 function dominioAFila(alerta: ReturnType<typeof nuevaAlertaHistorialSchema.parse>) {

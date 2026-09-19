@@ -50,3 +50,22 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     );
   }
 }
+
+export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const supabase = getSupabaseServerClient();
+    const { error } = await supabase.from(TABLA).delete().eq("id", id);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Error inesperado" },
+      { status: 500 }
+    );
+  }
+}
