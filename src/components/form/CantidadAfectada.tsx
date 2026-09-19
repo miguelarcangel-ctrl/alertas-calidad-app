@@ -30,7 +30,7 @@ export function CantidadAfectada({ form }: { form: UseFormReturn<AlertaCalidadFo
             <button
               type="button"
               onClick={() => remove(index)}
-              className="rounded px-2 py-1 text-xs font-semibold text-dpw-red hover:bg-dpw-gray-light"
+              className="font-condensed rounded-lg px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-dpw-red transition-colors hover:bg-dpw-red/10"
               aria-label="Quitar línea"
             >
               Quitar
@@ -41,7 +41,7 @@ export function CantidadAfectada({ form }: { form: UseFormReturn<AlertaCalidadFo
       <button
         type="button"
         onClick={() => append({ etiqueta: "", valor: "" })}
-        className="mt-3 rounded border border-dpw-primary px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-dpw-primary hover:bg-dpw-primary hover:text-white"
+        className="font-condensed mt-3 rounded-lg border-2 border-dpw-primary px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-dpw-primary transition-colors hover:bg-dpw-primary hover:text-white"
       >
         + Agregar línea
       </button>

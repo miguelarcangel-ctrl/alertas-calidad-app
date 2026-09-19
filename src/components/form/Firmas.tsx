@@ -16,8 +16,10 @@ export function Firmas({ form }: { form: UseFormReturn<AlertaCalidadFormValues> 
       <h2 className={sectionTitleClass}>Firmas</h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {roles.map(({ key, label }) => (
-          <div key={key} className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-wide text-dpw-dark">{label}</p>
+          <div key={key} className="space-y-2 rounded-xl bg-dpw-bg p-3">
+            <p className="font-condensed text-xs font-extrabold uppercase tracking-wide text-dpw-navy">
+              {label}
+            </p>
             <div>
               <label className={labelClass} htmlFor={`${key}-nombre`}>
                 Nombre

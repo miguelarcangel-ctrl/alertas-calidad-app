@@ -1,27 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f8f9fc;
   --foreground: #1a1a2e;
 }
 
 /*
- * Paleta DP World Panamá (skill dpworld-panama-brand). Al declararlas bajo
- * @theme inline con el prefijo --color-*, Tailwind v4 genera utilidades
- * bg-dpw-primary / text-dpw-primary / border-dpw-primary automáticamente.
+ * Paleta DP World Panamá (skill dpworld-panama-brand), alineada a la
+ * tipografía y los tokens que ya usan Cotizador 3PL / Control de Horas /
+ * Inspección de Contenedores (Barlow Condensed para headers/labels, Barlow
+ * para cuerpo). Al declararlas bajo @theme inline con el prefijo --color-*,
+ * Tailwind v4 genera utilidades bg-dpw-primary / text-dpw-primary / etc.
  */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-dpw-primary: #3e3c90;
   --color-dpw-primary-dark: #2d2b6b;
+  --color-dpw-navy: #1a1760;
   --color-dpw-green: #00c389;
   --color-dpw-red: #e8003d;
   --color-dpw-dark: #1a1a2e;
+  --color-dpw-bg: #f8f9fc;
   --color-dpw-gray-light: #f5f5f5;
   --color-dpw-gray-mid: #e0e0e0;
+  --color-dpw-border: #e2e2e2;
   --color-dpw-gray-text: #666666;
-  --font-sans: "Inter", "Barlow Condensed", sans-serif;
+  --font-sans: var(--font-barlow), sans-serif;
+  --font-condensed: var(--font-barlow-condensed), sans-serif;
 }
 
 body {

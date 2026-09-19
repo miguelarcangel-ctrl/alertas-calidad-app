@@ -4,7 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { pdf } from "@react-pdf/renderer";
 
 import { TablaHistorial } from "@/components/historial/TablaHistorial";
-import { inputClass, labelClass } from "@/components/form/ui";
+import { inputClass, labelClass, sectionClass } from "@/components/form/ui";
+import { PageHeader } from "@/components/PageHeader";
 import { AlertaCalidadDocumentHistorial } from "@/components/pdf/AlertaCalidadDocumentHistorial";
 import type { AlertaCalidadHistorial } from "@/types/alerta";
 
@@ -66,12 +67,10 @@ export default function HistorialPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
-      <h1 className="mb-6 text-xl font-bold uppercase tracking-wide text-dpw-dark">
-        Historial de alertas
-      </h1>
+    <div className="mx-auto max-w-5xl px-4 py-10">
+      <PageHeader eyebrow="Registro · DAL Colón Logistics Park" title="Historial de Alertas" />
 
-      <div className="mb-4 grid grid-cols-1 gap-4 rounded-lg border border-dpw-gray-mid bg-white p-4 sm:grid-cols-3">
+      <div className={`mb-5 grid grid-cols-1 gap-4 sm:grid-cols-3 ${sectionClass}`}>
         <div>
           <label className={labelClass}>Cliente</label>
           <input

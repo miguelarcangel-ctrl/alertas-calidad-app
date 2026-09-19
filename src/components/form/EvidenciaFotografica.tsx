@@ -82,7 +82,7 @@ export function EvidenciaFotografica({ fotos, setFotos }: EvidenciaFotograficaPr
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="rounded border border-dpw-primary px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-dpw-primary hover:bg-dpw-primary hover:text-white"
+        className="font-condensed rounded-lg border-2 border-dpw-primary px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-dpw-primary transition-colors hover:bg-dpw-primary hover:text-white"
       >
         + Agregar fotos
       </button>
@@ -95,20 +95,20 @@ export function EvidenciaFotografica({ fotos, setFotos }: EvidenciaFotograficaPr
           </p>
           <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {fotos.map((foto, index) => (
-              <div key={foto.id} className="rounded border border-dpw-gray-mid p-2">
+              <div key={foto.id} className="rounded-xl border border-dpw-gray-mid p-2">
                 <div className="relative">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={foto.previewUrl}
                     alt={foto.caption || foto.archivoNombre}
-                    className="h-24 w-full rounded object-cover"
+                    className="h-24 w-full rounded-lg object-cover"
                   />
-                  <span className="absolute left-1 top-1 rounded bg-dpw-dark/80 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                  <span className="font-condensed absolute left-1 top-1 rounded-md bg-dpw-navy/85 px-1.5 py-0.5 text-[10px] font-bold text-white">
                     {index + 1}
                   </span>
                 </div>
                 <input
-                  className="mt-2 w-full rounded border border-dpw-gray-mid px-2 py-1 text-xs"
+                  className="mt-2 w-full rounded-md border border-dpw-gray-mid px-2 py-1 text-xs"
                   placeholder="Caption (opcional)"
                   value={foto.caption}
                   onChange={(e) => actualizarCaption(foto.id, e.target.value)}
@@ -120,7 +120,7 @@ export function EvidenciaFotografica({ fotos, setFotos }: EvidenciaFotograficaPr
                   <button
                     type="button"
                     onClick={() => quitar(foto.id)}
-                    className="text-[10px] font-semibold text-dpw-red"
+                    className="font-condensed text-[10px] font-bold uppercase tracking-wide text-dpw-red"
                   >
                     Quitar
                   </button>

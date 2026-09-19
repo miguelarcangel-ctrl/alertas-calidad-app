@@ -12,7 +12,15 @@ import { EvidenciaFotografica, type FotoEvidencia } from "@/components/form/Evid
 import { Firmas } from "@/components/form/Firmas";
 import { Hallazgos } from "@/components/form/Hallazgos";
 import { HeaderFields } from "@/components/form/HeaderFields";
-import { errorClass, inputClass, sectionClass, sectionTitleClass } from "@/components/form/ui";
+import {
+  buttonOutlineClass,
+  buttonPrimaryClass,
+  errorClass,
+  inputClass,
+  sectionClass,
+  sectionTitleClass,
+} from "@/components/form/ui";
+import { PageHeader } from "@/components/PageHeader";
 import { TipoAlerta } from "@/components/form/TipoAlerta";
 import { AlertaCalidadDocument } from "@/components/pdf/AlertaCalidadDocument";
 import { compartirPDF, puedeCompartirArchivo } from "@/lib/compartirPDF";
@@ -135,15 +143,10 @@ export default function Page() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8">
-      <h1 className="mb-6 text-xl font-bold uppercase tracking-wide text-dpw-dark">
-        Nueva alerta de calidad
-      </h1>
+    <div className="mx-auto max-w-5xl px-4 py-10">
+      <PageHeader eyebrow="Formulario · DAL Colón Logistics Park" title="Nueva Alerta de Calidad" />
 
-      <form
-        onSubmit={form.handleSubmit(generarYGuardar)}
-        className="space-y-6"
-      >
+      <form onSubmit={form.handleSubmit(generarYGuardar)} className="space-y-6">
         <HeaderFields form={form} />
         <TipoAlerta form={form} />
 
@@ -168,12 +171,8 @@ export default function Page() {
 
         <Firmas form={form} />
 
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="submit"
-            disabled={estado === "generando"}
-            className="rounded bg-dpw-primary px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-white hover:bg-dpw-primary-dark disabled:opacity-50"
-          >
+        <div className="flex flex-wrap items-center gap-3 pt-1">
+          <button type="submit" disabled={estado === "generando"} className={buttonPrimaryClass}>
             {estado === "generando" ? "Generando…" : "Generar PDF"}
           </button>
 
@@ -182,7 +181,7 @@ export default function Page() {
               <button
                 type="button"
                 onClick={descargar}
-                className="rounded border border-dpw-primary px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-dpw-primary hover:bg-dpw-primary hover:text-white"
+                className={`${buttonOutlineClass} border-dpw-primary text-dpw-primary hover:bg-dpw-primary hover:text-white`}
               >
                 Descargar
               </button>
@@ -190,7 +189,7 @@ export default function Page() {
                 <button
                   type="button"
                   onClick={compartir}
-                  className="rounded border border-dpw-green px-4 py-2.5 text-sm font-semibold uppercase tracking-wide text-dpw-green hover:bg-dpw-green hover:text-white"
+                  className={`${buttonOutlineClass} border-dpw-green text-dpw-green hover:bg-dpw-green hover:text-white`}
                 >
                   Compartir
                 </button>

@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Link from "next/link";
-import Image from "next/image";
+import { Barlow, Barlow_Condensed } from "next/font/google";
+import { AppHeader } from "@/components/AppHeader";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const barlow = Barlow({
+  variable: "--font-barlow",
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
+  weight: ["400", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
 
@@ -16,33 +22,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
-        <header className="bg-dpw-primary text-white">
-          <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-            <Link href="/" className="flex items-center gap-2 font-bold tracking-wide">
-              <Image
-                src="/brand/dpworld-icon-arcos.png"
-                alt="DP World"
-                width={28}
-                height={28}
-                priority
-              />
-              <span className="uppercase">
-                Alertas de Calidad <span className="opacity-70">· DP World Panamá</span>
-              </span>
-            </Link>
-            <div className="flex gap-4 text-sm font-medium uppercase tracking-wide">
-              <Link href="/" className="hover:text-dpw-green">
-                Nueva alerta
-              </Link>
-              <Link href="/historial" className="hover:text-dpw-green">
-                Historial
-              </Link>
-            </div>
-          </nav>
-        </header>
-        <main className="flex-1 bg-dpw-gray-light">{children}</main>
+    <html
+      lang="es"
+      className={`${barlow.variable} ${barlowCondensed.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col bg-dpw-bg">
+        <AppHeader />
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   );
