@@ -2,25 +2,30 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a2e;
 }
 
+/*
+ * Paleta DP World Panamá (skill dpworld-panama-brand). Al declararlas bajo
+ * @theme inline con el prefijo --color-*, Tailwind v4 genera utilidades
+ * bg-dpw-primary / text-dpw-primary / border-dpw-primary automáticamente.
+ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-dpw-primary: #3e3c90;
+  --color-dpw-primary-dark: #2d2b6b;
+  --color-dpw-green: #00c389;
+  --color-dpw-red: #e8003d;
+  --color-dpw-dark: #1a1a2e;
+  --color-dpw-gray-light: #f5f5f5;
+  --color-dpw-gray-mid: #e0e0e0;
+  --color-dpw-gray-text: #666666;
+  --font-sans: "Inter", "Barlow Condensed", sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }

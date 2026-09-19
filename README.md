@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Alertas de Calidad — DP World Panamá
 
-## Getting Started
+App para generar, enviar y llevar historial de Alertas de Calidad, reemplazando el llenado manual
+en PDF. Ver `PLAN.md` para el detalle completo del alcance y las decisiones de diseño.
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Instalar dependencias:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   npm install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. Crear la tabla de historial en Supabase: correr `docs/supabase-schema.sql` en el SQL editor de
+   tu proyecto de Supabase.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Copiar `.env.example` a `.env.local` y completar:
+   - `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` — de tu proyecto de Supabase (Settings → API).
+   - `RESEND_API_KEY` / `RESEND_FROM_EMAIL` — de tu cuenta de Resend, con un remitente verificado.
 
-## Learn More
+4. Levantar en desarrollo:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estructura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/app/page.tsx` — formulario principal (genera el PDF, compartir, enviar por correo, guarda
+  en historial).
+- `src/app/historial/page.tsx` — lista de alertas guardadas, con filtro por cliente/fechas y
+  descarga (regenera el PDF sin fotos).
+- `src/app/api/alertas` — POST guarda en historial, GET lista.
+- `src/app/api/alertas/[id]` — GET un registro puntual.
+- `src/app/api/enviar-correo` — recibe el PDF + destinatario y lo envía vía Resend.
+- `src/components/pdf/` — documentos `@react-pdf/renderer` (`AlertaCalidadDocument` con fotos,
+  `AlertaCalidadDocumentHistorial` sin fotos).
+- `src/components/form/` — secciones del formulario.
+- `docs/` — esquemas de datos y spec de layout del PDF (fuente de verdad, ver también
+  `.claude/skills/alerta-calidad-schema`).
 
-## Deploy on Vercel
+## Fixture de prueba
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`sample-data/ejemplo-CAL-2026-018.json` trae un caso real con 14 fotos (usa placeholders, no
+imágenes reales) para probar la regla de paginación de evidencia fotográfica.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Qué se verificó y qué falta
+
+Verificado en este entorno: `npm run build` (type-check completo, sin errores), `npm run lint`
+(limpio), `npm run dev` sirviendo `/` y `/historial` con status 200, los assets de marca
+(`/brand/*.png`) sirviéndose correctamente, y las clases de Tailwind (`bg-dpw-primary`, etc.)
+compilando al CSS final.
+
+**No verificado** (este entorno no tiene navegador ni credenciales de Supabase/Resend):
+
+- El flujo real de generación de PDF en el navegador (`pdf().toBlob()` de `@react-pdf/renderer`
+  corre en el cliente y necesita un DOM real).
+- Paginación de evidencia con 0, 1, 10 y 15+ fotos reales — probar con
+  `sample-data/ejemplo-CAL-2026-018.json` como referencia de textos largos (ese fixture trae
+  nombres de foto placeholder, no imágenes reales).
+- Guardado/lectura real en Supabase y envío real de correo con Resend (las API routes fallan de
+  forma controlada y con mensaje claro si faltan las variables de entorno — eso sí se probó).
+
+Antes de dar por buena la Fase 1: completar `.env.local`, correr `npm run dev` y probar el flujo
+completo (generar → descargar/compartir/enviar → aparece en historial → redescargar sin fotos)
+en un navegador real.

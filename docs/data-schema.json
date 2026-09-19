@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AlertaCalidad",
+  "type": "object",
+  "required": [
+    "alertaNumero",
+    "fechaEmision",
+    "centroEmision",
+    "cliente",
+    "descripcionProducto",
+    "tipoAlerta",
+    "descripcionAlerta",
+    "hallazgos",
+    "causaRaiz",
+    "accionesRealizadas"
+  ],
+  "properties": {
+    "alertaNumero": {
+      "type": "string",
+      "description": "Formato CAL-{AÑO}-{NNN}, ej. CAL-2026-018. En Fase 1 el usuario lo escribe manualmente o la app sugiere el siguiente basado en localStorage; en Fase 2 se genera server-side de forma correlativa.",
+      "pattern": "^CAL-[0-9]{4}-[0-9]{3}$"
+    },
+    "fechaEmision": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de emisión de la alerta, default = hoy."
+    },
+    "centroEmision": {
+      "type": "string",
+      "default": "DP WORLD PANAMA",
+      "description": "En el futuro puede variar si hay más de un centro/bodega (ver Bodega 1 / Bodega 2 en el perfil del usuario)."
+    },
+    "cliente": {
+      "type": "string",
+      "description": "Nombre del cliente afectado, ej. 'CERVECERIA NACIONAL DOMINICANA (CND)'."
+    },
+    "sku": {
+      "type": "string",
+      "description": "Opcional. N/A si no aplica."
+    },
+    "descripcionProducto": {
+      "type": "string",
+      "description": "Ej. 'Cerveza Presidente Lata (6 pack / 12 oz)'."
+    },
+    "lote": { "type": "string", "default": "N/A" },
+    "fechaProduccion": { "type": "string", "default": "N/A" },
+    "fechaVencimiento": { "type": "string", "default": "N/A" },
+    "transportista": { "type": "string", "default": "N/A" },
+    "ordenTransporte": { "type": "string", "default": "N/A" },
+
+    "tipoAlerta": {
+      "type": "object",
+      "required": ["tipo"],
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "enum": ["Calidad", "Seguridad", "Otro"]
+        },
+        "otroDetalle": {
+          "type": "string",
+          "description": "Solo si tipo === 'Otro'."
+        }
+      }
+    },
+
+    "descripcionAlerta": {
+      "type": "string",
+      "description": "Texto libre describiendo qué se encontró."
+    },
+
+    "cantidadAfectada": {
+      "type": "array",
+      "description": "Lista flexible de líneas etiqueta/valor. No forzar estructura fija de paletas/cajas — otros tipos de carga (contenedores, bultos, kg) no calzan en ese molde.",
+      "items": {
+        "type": "object",
+        "required": ["etiqueta", "valor"],
+        "properties": {
+          "etiqueta": { "type": "string", "description": "Ej. 'Paletas comprometidas'." },
+          "valor": { "type": "string", "description": "Ej. '17 (140 cajas por paleta)'." }
+        }
+      }
+    },
+
+    "hallazgos": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Lista de bullets, editable dinámicamente en el formulario."
+    },
+
+    "causaRaiz": {
+      "type": "string",
+      "description": "Texto libre."
+    },
+
+    "accionesRealizadas": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+
+    "evidenciaFotografica": {
+      "type": "array",
+      "description": "Cada foto con su caption opcional. Ver docs/pdf-layout-spec.md para reglas de paginación.",
+      "items": {
+        "type": "object",
+        "required": ["imagenBase64OrUrl"],
+        "properties": {
+          "imagenBase64OrUrl": { "type": "string" },
+          "caption": { "type": "string" }
+        }
+      }
+    },
+
+    "observaciones": {
+      "type": "string",
+      "default": "N/A"
+    },
+
+    "firmas": {
+      "type": "object",
+      "properties": {
+        "elaboradoPor": {
+          "type": "object",
+          "properties": {
+            "nombre": { "type": "string" },
+            "cargo": { "type": "string" }
+          }
+        },
+        "revisadoPor": {
+          "type": "object",
+          "properties": {
+            "nombre": { "type": "string" },
+            "cargo": { "type": "string" }
+          }
+        },
+        "aprobadoPor": {
+          "type": "object",
+          "properties": {
+            "nombre": { "type": "string" },
+            "cargo": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

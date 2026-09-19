@@ -1,0 +1,68 @@
+{
+  "alertaNumero": "CAL-2026-018",
+  "fechaEmision": "2026-09-18",
+  "centroEmision": "DP WORLD PANAMA",
+  "cliente": "CERVECERIA NACIONAL DOMINICANA (CND)",
+  "sku": "22332",
+  "descripcionProducto": "Cerveza Presidente Lata (6 pack / 12 oz)",
+  "lote": "N/A",
+  "fechaProduccion": "N/A",
+  "fechaVencimiento": "N/A",
+  "transportista": "N/A",
+  "ordenTransporte": "N/A",
+
+  "tipoAlerta": {
+    "tipo": "Calidad"
+  },
+
+  "descripcionAlerta": "Durante nuestros procesos de control en bodega (movimientos de revisión e inventario), se identificaron paletas con producto comprometido, presentando latas con autoapertura en el sello de la boquilla y evidencias de derrame.",
+
+  "cantidadAfectada": [
+    { "etiqueta": "Paletas inicialmente identificadas", "valor": "5" },
+    { "etiqueta": "Paletas adicionales identificadas", "valor": "12" },
+    { "etiqueta": "Total de paletas comprometidas", "valor": "17 (140 cajas por paleta)" }
+  ],
+
+  "hallazgos": [
+    "Se realizaron 120 movimientos de revisión.",
+    "Se encontraron 5 paletas comprometidas de 140 cajas, con afectaciones visibles.",
+    "Posteriormente se identificaron 12 paletas adicionales con el mismo hallazgo.",
+    "Las paletas fueron identificadas y segregadas en área de cuarentena."
+  ],
+
+  "causaRaiz": "Tiempo prolongado de almacenamiento. La mercancía afectada corresponde a producto almacenado desde los meses de febrero, marzo y junio de 2026. La permanencia extendida del producto en almacenamiento se identifica como la causa raíz asociada al deterioro observado, incluyendo autoapertura de latas y consecuente derrame de producto.",
+
+  "accionesRealizadas": [
+    "Identificación y segregación inmediata de las paletas afectadas.",
+    "Registro fotográfico del hallazgo.",
+    "Notificación al cliente.",
+    "Bloqueo del inventario en sistema (P4).",
+    "Producto en cuarentena a la espera de instrucciones del cliente.",
+    "Continuidad de inspección en lotes adicionales."
+  ],
+
+  "evidenciaFotografica": [
+    { "imagenBase64OrUrl": "placeholder-01.jpg", "caption": "Vista superior de paleta con latas afectadas" },
+    { "imagenBase64OrUrl": "placeholder-02.jpg", "caption": "Latas con evidencias de derrame" },
+    { "imagenBase64OrUrl": "placeholder-03.jpg", "caption": "Detalle de autoapertura en sello" },
+    { "imagenBase64OrUrl": "placeholder-04.jpg", "caption": "Lata con autoapertura visible" },
+    { "imagenBase64OrUrl": "placeholder-05.jpg", "caption": "Detalle adicional de latas afectadas" },
+    { "imagenBase64OrUrl": "placeholder-06.jpg", "caption": "Evidencia en empaque secundario" },
+    { "imagenBase64OrUrl": "placeholder-07.jpg", "caption": "Paleta con producto Presidente" },
+    { "imagenBase64OrUrl": "placeholder-08.jpg", "caption": "Inspección y segregación" },
+    { "imagenBase64OrUrl": "placeholder-09.jpg", "caption": "Proceso de revisión y acondicionamiento" },
+    { "imagenBase64OrUrl": "placeholder-10.jpg", "caption": "Detalle de paleta afectada" },
+    { "imagenBase64OrUrl": "placeholder-11.jpg", "caption": "Registro fotográfico complementario - imagen completa sin recorte" },
+    { "imagenBase64OrUrl": "placeholder-12.jpg", "caption": "Registro fotográfico complementario - imagen completa sin recorte" },
+    { "imagenBase64OrUrl": "placeholder-13.jpg", "caption": "Registro fotográfico complementario - imagen completa sin recorte" },
+    { "imagenBase64OrUrl": "placeholder-14.jpg", "caption": "Registro fotográfico complementario - imagen completa sin recorte" }
+  ],
+
+  "observaciones": "N/A",
+
+  "firmas": {
+    "elaboradoPor": { "nombre": "Miguel Charris", "cargo": "Gerente de Bodega - DP World Panama" },
+    "revisadoPor": { "nombre": "", "cargo": "" },
+    "aprobadoPor": { "nombre": "", "cargo": "" }
+  }
+}

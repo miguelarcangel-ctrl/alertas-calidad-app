@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AlertaCalidadHistorial",
+  "description": "Lo que efectivamente se guarda en base de datos al generar/enviar una alerta. Es un subconjunto de AlertaCalidad (docs/data-schema.json): incluye todos los campos de texto, pero NUNCA el binario de las fotos — solo la cantidad y los captions, para poder mostrar un aviso al regenerar el PDF desde el historial (ver PLAN.md sección 6.2).",
+  "type": "object",
+  "required": [
+    "id",
+    "alertaNumero",
+    "fechaEmision",
+    "cliente",
+    "descripcionProducto",
+    "tipoAlerta",
+    "descripcionAlerta",
+    "hallazgos",
+    "causaRaiz",
+    "accionesRealizadas",
+    "cantidadFotosOriginal",
+    "fechaGuardado"
+  ],
+  "properties": {
+    "id": { "type": "string", "description": "UUID generado por la base de datos." },
+    "alertaNumero": { "type": "string", "pattern": "^CAL-[0-9]{4}-[0-9]{3}$" },
+    "fechaEmision": { "type": "string", "format": "date" },
+    "centroEmision": { "type": "string" },
+    "cliente": { "type": "string" },
+    "sku": { "type": "string" },
+    "descripcionProducto": { "type": "string" },
+    "lote": { "type": "string" },
+    "fechaProduccion": { "type": "string" },
+    "fechaVencimiento": { "type": "string" },
+    "transportista": { "type": "string" },
+    "ordenTransporte": { "type": "string" },
+
+    "tipoAlerta": {
+      "type": "object",
+      "properties": {
+        "tipo": { "type": "string", "enum": ["Calidad", "Seguridad", "Otro"] },
+        "otroDetalle": { "type": "string" }
+      }
+    },
+
+    "descripcionAlerta": { "type": "string" },
+
+    "cantidadAfectada": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "etiqueta": { "type": "string" },
+          "valor": { "type": "string" }
+        }
+      }
+    },
+
+    "hallazgos": { "type": "array", "items": { "type": "string" } },
+    "causaRaiz": { "type": "string" },
+    "accionesRealizadas": { "type": "array", "items": { "type": "string" } },
+
+    "cantidadFotosOriginal": {
+      "type": "integer",
+      "description": "Cuántas fotos tenía la alerta cuando se generó/envió originalmente."
+    },
+    "captionsFotosOriginal": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Solo los captions de texto de cada foto (NO la imagen). Se usan para armar la nota de aviso en el PDF regenerado desde el historial."
+    },
+
+    "observaciones": { "type": "string" },
+
+    "firmas": {
+      "type": "object",
+      "properties": {
+        "elaboradoPor": {
+          "type": "object",
+          "properties": { "nombre": { "type": "string" }, "cargo": { "type": "string" } }
+        },
+        "revisadoPor": {
+          "type": "object",
+          "properties": { "nombre": { "type": "string" }, "cargo": { "type": "string" } }
+        },
+        "aprobadoPor": {
+          "type": "object",
+          "properties": { "nombre": { "type": "string" }, "cargo": { "type": "string" } }
+        }
+      }
+    },
+
+    "envios": {
+      "type": "array",
+      "description": "Bitácora opcional de a quién/por qué canal se envió esta alerta. Útil para trazabilidad, no bloqueante para el MVP.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "canal": { "type": "string", "enum": ["whatsapp", "email", "otro"] },
+          "destinatario": { "type": "string" },
+          "fecha": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+
+    "fechaGuardado": { "type": "string", "format": "date-time" }
+  }
+}
