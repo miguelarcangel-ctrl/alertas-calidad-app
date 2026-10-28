@@ -26,7 +26,7 @@ const Marca = () => (
 /**
  * Cinta superior y menú desplegable comunes a todas las apps de la plataforma
  * (molde Last Mile, skill linea-grafica): botón de tres rayas, logo y título a
- * la izquierda; Salir a la derecha. Las secciones van en el menú lateral, solo
+ * la izquierda; Instalar, Claro/Oscuro y Salir a la derecha. Las secciones van en el menú lateral, solo
  * con texto. Las clases dpw-* vienen de src/app/dpw-shell.css.
  */
 export function AppHeader() {
@@ -73,6 +73,13 @@ export function AppHeader() {
           <Marca />
         </div>
         <div className="dpw-hdr-r">
+          {/* Instalar y Claro/Oscuro los maneja public/dpw/dpw-shell.js (data-dpw) */}
+          <button type="button" className="dpw-hbtn dpw-install dpw-hide-sm" data-dpw="instalar" hidden>
+            Instalar
+          </button>
+          <button type="button" className="dpw-hbtn" data-dpw="tema" suppressHydrationWarning>
+            Tema
+          </button>
           <button type="button" className="dpw-salir" onClick={salir}>
             Salir
           </button>

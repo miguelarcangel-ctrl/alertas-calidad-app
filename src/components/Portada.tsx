@@ -6,7 +6,12 @@ import { useRef } from "react";
 
 declare global {
   interface Window {
-    DPW?: { escena?: (nombre: string, root?: Element | null) => void; ESCENAS?: Record<string, unknown> };
+    DPW?: {
+      escena?: (nombre: string, root?: Element | null) => void;
+      ESCENAS?: Record<string, unknown>;
+      pwa?: (sw?: string) => void;
+      pintar?: () => void;
+    };
   }
 }
 
@@ -22,8 +27,9 @@ export function verPortada(on: boolean) {
   if (!on) window.scrollTo(0, 0);
 }
 
-/** Script en línea para <head>: si ya se entró en esta pestaña, la portada no parpadea al recargar. */
-export const portadaInicial = `try{if(sessionStorage.getItem('${CLAVE}'))document.documentElement.classList.add('dpw-entro')}catch(e){}`;
+/** Script en línea para <head>: tema guardado (claro por defecto, skill linea-grafica) y, si ya se entró en esta
+ *  pestaña, portada oculta. Corre antes de pintar para que nada parpadee al recargar. */
+export const portadaInicial = `(function(){var t;try{t=localStorage.getItem('dpw_tema')}catch(e){}document.documentElement.setAttribute('data-theme',t==='dark'?'dark':'light');try{if(sessionStorage.getItem('${CLAVE}'))document.documentElement.classList.add('dpw-entro')}catch(e){}})();`;
 
 /**
  * Portada común de las apps (molde Last Mile, skill linea-grafica) con la escena
@@ -36,9 +42,17 @@ export function Portada() {
   const arrancar = () => {
     if (window.DPW?.escena && window.DPW.ESCENAS?.radar) window.DPW.escena("radar", ref.current);
   };
+  const shellListo = () => {
+    window.DPW?.pwa?.("/sw.js");
+    window.DPW?.pintar?.();
+    arrancar();
+  };
 
   return (
     <div className="dpw-login" id="portada" ref={ref}>
+      <button type="button" className="dpw-lg-install" data-dpw="instalar" hidden>
+        Instalar app
+      </button>
       <div className="dpw-lg-art" aria-hidden="true">
         <svg data-dpw-art />
       </div>
@@ -61,7 +75,7 @@ export function Portada() {
         </button>
         <div className="dpw-lg-foot">Uso interno exclusivo · DP World Panamá</div>
       </div>
-      <Script src="/dpw/dpw-shell.js" onReady={arrancar} />
+      <Script src="/dpw/dpw-shell.js" onReady={shellListo} />
       <Script src="/dpw/dpw-escenas.js" onReady={arrancar} />
     </div>
   );
