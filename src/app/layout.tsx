@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Barlow, Barlow_Condensed } from "next/font/google";
 import { AppHeader } from "@/components/AppHeader";
+import { Portada, portadaInicial } from "@/components/Portada";
 import "./globals.css";
+import "./dpw-shell.css";
 
 const barlow = Barlow({
   variable: "--font-barlow",
@@ -25,8 +27,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es"
       className={`${barlow.variable} ${barlowCondensed.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-dpw-bg">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: portadaInicial }} />
+      </head>
+      <body className="dpw-light min-h-full flex flex-col bg-dpw-bg">
+        <Portada />
         <AppHeader />
         <main className="flex-1">{children}</main>
       </body>

@@ -35,3 +35,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* Cascarón común (src/app/dpw-shell.css, skill linea-grafica): fuentes de next/font y portada oculta tras Entrar */
+html:root {
+  --dpw-fd: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
+  --dpw-fb: var(--font-barlow), sans-serif;
+}
+.dpw-entro #portada {
+  display: none;
+}
