@@ -1,5 +1,5 @@
 export const inputClass =
-  "w-full rounded-lg border border-dpw-gray-mid bg-white px-3.5 py-2.5 text-sm text-dpw-dark transition-colors focus:border-dpw-primary focus:outline-none focus:ring-2 focus:ring-dpw-primary/15";
+  "w-full rounded-lg border border-dpw-gray-mid bg-dpw-surface px-3.5 py-2.5 text-sm text-dpw-dark transition-colors focus:border-dpw-primary focus:outline-none focus:ring-2 focus:ring-dpw-primary/15";
 
 export const labelClass =
   "font-condensed mb-1.5 block text-xs font-bold uppercase tracking-wide text-dpw-gray-text";
@@ -7,7 +7,7 @@ export const labelClass =
 export const errorClass = "mt-1 text-xs font-medium text-dpw-red";
 
 export const sectionClass =
-  "rounded-2xl border border-dpw-gray-mid bg-white p-6 shadow-[0_2px_12px_rgba(26,16,96,0.06)]";
+  "rounded-2xl border border-dpw-gray-mid bg-dpw-surface p-6 shadow-[0_2px_12px_rgba(26,16,96,0.06)]";
 
 export const sectionTitleClass =
   "font-condensed mb-5 flex items-center gap-2.5 text-sm font-extrabold uppercase tracking-wide text-dpw-navy before:h-4 before:w-1 before:rounded-full before:bg-dpw-primary";

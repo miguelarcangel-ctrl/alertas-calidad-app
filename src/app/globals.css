@@ -10,28 +10,72 @@
  * tipografía y los tokens que ya usan Cotizador 3PL / Control de Horas /
  * Inspección de Contenedores (Barlow Condensed para headers/labels, Barlow
  * para cuerpo). Índigo, grises y bordes son los del Cotizador 3PL. Al declararlas bajo @theme inline con el prefijo --color-*,
- * Tailwind v4 genera utilidades bg-dpw-primary / text-dpw-primary / etc.
+ * Tailwind v4 genera utilidades bg-dpw-primary / text-dpw-primary / etc. (apuntan a variables que cambian con el tema).
  */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-dpw-primary: #1a1060;
-  --color-dpw-primary-dark: #2a1f8f;
-  --color-dpw-navy: #1a1060;
-  --color-dpw-green: #00c389;
-  --color-dpw-red: #e8003d;
-  --color-dpw-dark: #1a1a2e;
-  --color-dpw-bg: #f8f9fc;
-  --color-dpw-gray-light: #f5f5f5;
-  --color-dpw-gray-mid: #e0e0e0;
-  --color-dpw-border: #e2e8f0;
-  --color-dpw-gray-text: #64748b;
+  --color-dpw-primary: var(--dpw-c-primary);
+  --color-dpw-primary-dark: var(--dpw-c-primary-dark);
+  --color-dpw-navy: var(--dpw-c-navy);
+  --color-dpw-green: var(--dpw-c-green);
+  --color-dpw-red: var(--dpw-c-red);
+  --color-dpw-dark: var(--dpw-c-dark);
+  --color-dpw-bg: var(--dpw-c-bg);
+  --color-dpw-surface: var(--dpw-c-surface);
+  --color-dpw-gray-light: var(--dpw-c-gray-light);
+  --color-dpw-gray-mid: var(--dpw-c-gray-mid);
+  --color-dpw-border: var(--dpw-c-border);
+  --color-dpw-gray-text: var(--dpw-c-gray-text);
   --font-sans: var(--font-barlow), sans-serif;
   --font-condensed: var(--font-barlow-condensed), sans-serif;
+}
+
+/* Valores de la paleta en tema claro (por defecto) y oscuro (html[data-theme="dark"], skill linea-grafica).
+   Los colores van en variables para que las utilidades de Tailwind cambien solas con el tema. */
+:root {
+  --dpw-c-primary: #1a1060;
+  --dpw-c-primary-dark: #2a1f8f;
+  --dpw-c-navy: #1a1060;
+  --dpw-c-green: #00c389;
+  --dpw-c-red: #e8003d;
+  --dpw-c-dark: #1a1a2e;
+  --dpw-c-bg: #f8f9fc;
+  --dpw-c-surface: #ffffff;
+  --dpw-c-gray-light: #f5f5f5;
+  --dpw-c-gray-mid: #e0e0e0;
+  --dpw-c-border: #e2e8f0;
+  --dpw-c-gray-text: #64748b;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0d0b28;
+  --foreground: #ffffff;
+  --dpw-c-primary: #6d6bd0;
+  --dpw-c-primary-dark: #8a88e0;
+  --dpw-c-navy: #c9c7ff;
+  --dpw-c-green: #00c389;
+  --dpw-c-red: #ff4d73;
+  --dpw-c-dark: #ffffff;
+  --dpw-c-bg: #0d0b28;
+  --dpw-c-surface: #1e1c50;
+  --dpw-c-gray-light: #16143d;
+  --dpw-c-gray-mid: rgba(255, 255, 255, 0.14);
+  --dpw-c-border: rgba(255, 255, 255, 0.14);
+  --dpw-c-gray-text: rgba(255, 255, 255, 0.62);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+/* Cascarón común (src/app/dpw-shell.css, skill linea-grafica): fuentes de next/font y portada oculta tras Entrar */
+html:root {
+  --dpw-fd: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
+  --dpw-fb: var(--font-barlow), sans-serif;
+}
+.dpw-entro #portada {
+  display: none;
 }

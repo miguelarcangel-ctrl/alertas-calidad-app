@@ -20,7 +20,7 @@ export function TablaHistorial({
   }
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-dpw-gray-mid bg-white shadow-[0_2px_12px_rgba(26,16,96,0.06)]">
+    <div className="overflow-x-auto rounded-2xl border border-dpw-gray-mid bg-dpw-surface shadow-[0_2px_12px_rgba(26,16,96,0.06)]">
       <table className="w-full text-left text-sm">
         <thead>
           <tr className="bg-black text-white">
@@ -41,7 +41,7 @@ export function TablaHistorial({
           {alertas.map((alerta, i) => (
             <tr
               key={alerta.id}
-              className={i % 2 === 0 ? "bg-white" : "bg-dpw-gray-light"}
+              className={i % 2 === 0 ? "bg-dpw-surface" : "bg-dpw-gray-light"}
               style={{ borderTop: "1px solid #E0E0E0" }}
             >
               <td className="font-condensed px-4 py-3 font-bold text-dpw-primary">
