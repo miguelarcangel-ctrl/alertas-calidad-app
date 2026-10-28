@@ -2,7 +2,7 @@
 // Permite instalar la app y abrirla sin conexión. La app se pide primero a la red (siempre la versión publicada);
 // la copia guardada solo se usa sin conexión. Supabase nunca se guarda: los datos van siempre al servidor.
 // Al publicar un cambio grande, sube la versión de CACHE.
-const CACHE = 'alertas-v1';
+const CACHE = 'alertas-v2';
 const BASE = ['./', './manifest.webmanifest', './dpw/dpw-shell.css', './dpw/dpw-shell.js', './dpw/dpw-escenas.js',
   './dpw/assets/dpworld-logo-fondo-claro.png', './dpw/pwa/icon-192.png', './dpw/pwa/icon-512.png'];
 
